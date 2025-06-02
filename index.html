@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+  <link href="./output.css" rel="stylesheet" />
+  <script src="we.js" ></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-200 to-indigo-600 min-h-screen flex items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl bg-white/30 backdrop-blur-md rounded-2xl p-6 shadow-xl text-black">
+    
+    <!-- Title -->
+    <h1 class="text-center text-5xl font-bold mb-6">Weather Info</h1> 
+    
+    <!-- Input Section -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+      <input 
+        list="cityOptions"
+        type="text" 
+        id="cityName" 
+        class="w-full sm:w-auto px-4 py-2 rounded-xl border-2 border-blue-300 text-black"
+        placeholder="e.g. Tokyo, England, Delhi" 
+        required
+      />
+      <datalist id="cityOptions">
+        <!-- JS will populate this -->
+      </datalist>
+
+      <button 
+        onclick="getCurr()" 
+        type="button"
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl transition duration-300"
+      >
+        Search
+      </button>
+
+      <button 
+        onclick="getCurrentPosition()"
+        type="button"
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl transition duration-300"
+      >
+        Get Current Location
+      </button>
+    </div>
+
+    <!-- Optional Output Section -->
+    <div class="text-center text-sm text-gray-100 mb-6">
+      <p id="output"></p>
+    </div>
+
+    <!-- Current Weather Section -->
+    <section class="mb-8">
+      <div class="bg-white/20 rounded-xl p-6 border-2 border-amber-100 max-w-xs mx-auto text-center">
+        <h2 class="text-2xl font-semibold mb-2">Current Weather</h2>
+        <p id="Temperature" class="text-6xl font-bold">25<sup>°C</sup></p>
+        <p id="Humidity" class="text-xl mt-2">Humidity</p>
+        <p id="Wind" class="text-xl mt-1">Wind</p>
+      </div>
+    </section>
+
+    <!-- Forecast Section -->
+    <section>
+      <h2 class="text-2xl font-semibold text-center mb-4">5-Day Forecast</h2>
+      <div id="forecast" class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div id="card-0" class="bg-white/20 p-4 rounded-xl border-2 border-indigo-400 text-center">Day 1 forecast</div>
+        <div id="card-1" class="bg-white/20 p-4 rounded-xl border-2 border-indigo-400 text-center">Day 2 forecast</div>
+        <div id="card-2" class="bg-white/20 p-4 rounded-xl border-2 border-indigo-400 text-center">Day 3 forecast</div>
+        <div id="card-3" class="bg-white/20 p-4 rounded-xl border-2 border-indigo-400 text-center">Day 4 forecast</div>
+        <div id="card-4" class="bg-white/20 p-4 rounded-xl border-2 border-indigo-400 text-center">Day 5 forecast</div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

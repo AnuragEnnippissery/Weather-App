@@ -2,9 +2,10 @@
 //api key => e083dd14b86727c4cdde94abc02df2a9
 // to run the code tailwind npx tailwindcss -i ./input.css -o ./output.css --watch
 
+const apiKey = config.apiKey;
 
 async function getWeather() {
-    const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; // replace with your API key
+    //const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; // replace with your API key
     const city = document.getElementById('cityName').value;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
@@ -32,7 +33,7 @@ async function getWeather() {
   }
 //-------------------------------------------current function------------------------------------------------
   async function getCurr() {
-    const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; // API key
+    //const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; // API key
     const city = document.getElementById('cityName').value;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
@@ -73,7 +74,7 @@ function updateDatalist(cities) {
   datalist.innerHTML = cities.map(city => `<option value="${city}">`).join('');
 }
 //-----------current location functionality -------------------------------------
-const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; // Replace with your key
+//const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; // Replace with your key
 
 function getCurrentPosition() {
   if (!navigator.geolocation) {
@@ -86,31 +87,22 @@ function getCurrentPosition() {
   function success(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
+   // const apiKey = 'e083dd14b86727c4cdde94abc02df2a9';
 
-    // Current Weather API
-    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-
-    // 5-Day Forecast API
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-
-    // Fetch both
-    fetch(currentUrl)
-      .then(res => res.json())
-      .then(data => displayWeather(data));
 
     fetch(forecastUrl)
       .then(res => res.json())
-      .then(data => displayForecast(data));
-  
-  const forecastContainer = document.getElementById('forecast');
-        //forecastContainer.innerHTML = ''; // clear previous data
+      .then(data => {
+        if (data.cod !== "200") {
+          document.getElementById('forecast').innerHTML = `<p>Error: ${data.message}</p>`;
+          return;
+        }
 
         const dailyData = data.list.filter(item => item.dt_txt.includes("12:00:00"));
 
         for (let i = 0; i < 5; i++) {
           const item = dailyData[i];
-          if (!item) continue; // in case there's less than 5
-
           const date = new Date(item.dt_txt).toDateString();
           const temp = item.main.temp;
           const desc = item.weather[0].description;
@@ -119,21 +111,24 @@ function getCurrentPosition() {
 
           const card = document.getElementById(`card-${i}`);
           card.innerHTML = `
-            <h3>${date}</h3>
-            <img src="${iconUrl}" alt="${desc}">
-            <p>${temp}°C</p>
-            <p>${desc}</p>
+            <h3 class="text-lg font-bold">${date}</h3>
+            <img src="${iconUrl}" alt="${desc}" class="mx-auto">
+            <p class="text-xl font-semibold">${temp}°C</p>
+            <p class="capitalize">${desc}</p>
           `;
         }
-      }
+      });
+  }
+
   function error() {
     alert("Unable to retrieve your location.");
   }
 }
+  
 //--------------- 5 day forecast data ----------------------------------------
   async function getForecast() {
       const city = document.getElementById('cityName').value.trim();
-      const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; //  OpenWeatherMap API key
+      //const apiKey = 'e083dd14b86727c4cdde94abc02df2a9'; //  OpenWeatherMap API key
 
       if (!city) {
         alert('Please enter a city name.');
